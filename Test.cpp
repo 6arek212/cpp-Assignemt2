@@ -337,7 +337,7 @@ TEST_CASE("Bad input")
     CHECK_THROWS(notebook.read(-1, -1, -1, Direction::Horizontal, 1));
 }
 
-TEST_CASE("Letter Intercecting")
+TEST_CASE("Letter intersecting")
 {
     /**
      * @brief  multipule tests with letters intercect each other
@@ -361,7 +361,7 @@ TEST_CASE("Letter Intercecting")
     CHECK_THROWS(notebook.write(/*page=*/1, /*row=*/0, /*column=*/5, Direction::Vertical, "-"));
 }
 
-TEST_CASE("fill square page and check for out of border intercetion")
+TEST_CASE("fill square page and check for out of border intersection")
 {
     /**
      * @brief  filling a page like so :
