@@ -5,46 +5,25 @@ using namespace std;
 
 namespace ariel
 {
-    const int rowLength = 20;
-
-    class Word
-    {
-    private:
-        string word;
-        Direction direction;
-
-    public:
-        void setWord(string word)
-        {
-            this->word = word;
-        }
-
-        void setDirection(Direction dr)
-        {
-            this->direction = dr;
-        }
-
-        string getWord(){
-            return word;
-        }
-    };
+    const int _COLUMN_LENGTH = 100;
 
     class Notebook
     {
 
     private:
-        int _pagesNumber;
         string _title;
-        string _description;
-        map<int, map<int, Word[rowLength]>> _pages;
+        map<int, map<int, char *>> _pages;
+
+    private:
+        void addLines(int page, int rows, Direction dir, int length = 1);
+        int findFirstWirttenLine(int page);
 
     public:
-        void write(int page, int row, int column, Direction dir, string data);
+        void write(int page, int row, int column, Direction dir, const string &data);
         string read(int page, int row, int column, Direction dir, int length);
         void erase(int page, int row, int column, Direction dir, int length);
         void show(int page);
         // void Notebook::setTitle(string title);
-        // void Notebook::setDescription(string des);
     };
 
 }

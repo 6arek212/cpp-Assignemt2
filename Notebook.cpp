@@ -5,42 +5,212 @@
 using namespace ariel;
 using namespace std;
 
-void Notebook::write(int page, int row, int column, Direction dir, string data)
+void Notebook::addLines(int page, int rows, Direction dir, int length)
 {
-    if (!this->_pages.count(page))
+    int lg = dir == Direction::Horizontal ? rows : rows + length;
+    for (int i = 0; i <= lg; i++)
     {
-        map<int, Word[rowLength]> mp;
-        this->_pages[page] = mp;
+        if (this->_pages[page].count(i) == 0)
+        {
+            this->_pages[page][i] = new char[_COLUMN_LENGTH];
+            for (int k = 0; k < _COLUMN_LENGTH; k++)
+            {
+                this->_pages[page][i][k] = '_';
+            }
+        }
+    }
+}
+
+void Notebook::write(int page, int row, int column, Direction dir, const string &data)
+{
+    if (page < 0 || row < 0 || column < 0)
+    {
+        throw invalid_argument("Error ,row , page , column  -> neither can be a negative value !");
     }
 
-    this->_pages.at(page).at(row)[column].setWord(data);
-    this->_pages.at(page).at(row)[column].setDirection(dir);
+    if (column + (int)data.length() - 1 >= _COLUMN_LENGTH)
+    {
+        throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
+    }
+
+    addLines(page, row, dir, data.length());
+
+    int i = 0;
+    for (char const &ch : data)
+    {
+        if ((dir == Direction::Horizontal && this->_pages[page][row][column + i] != '_') || (dir == Direction::Vertical && this->_pages[page][row + i][column] != '_'))
+        {
+            throw invalid_argument("Error , writing one of the letter intersect with another");
+        }
+        i++;
+    }
+
+    i = 0;
+    for (char const &ch : data)
+    {
+        if (dir == Direction::Horizontal)
+        {
+            this->_pages[page][row][column + i] = ch;
+        }
+        else
+        {
+            this->_pages[page][row + i][column] = ch;
+        }
+        i++;
+    }
 }
 
 string Notebook::read(int page, int row, int column, Direction dir, int length)
 {
-    return "aaaa";
+    if (page < 0 || row < 0 || column < 0 || length < 0)
+    {
+        throw invalid_argument("Error ,row , page , column , length -> neither can be a negative value !");
+    }
+
+    if (column + length - 1 >= _COLUMN_LENGTH)
+    {
+        throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
+    }
+
+
+    addLines(page, row, dir, length);
+
+    string str;
+    for (int i = 0; i < length; i++)
+    {
+        if (dir == Direction::Horizontal)
+        {
+            str += this->_pages[page][row][column + i];
+        }
+        else
+        {
+            str += this->_pages[page][row + i][column];
+        }
+    }
+    return str;
 }
 
 void Notebook::erase(int page, int row, int column, Direction dir, int length)
 {
-    this->_pages.at(page).at(row)[column].setWord("`");
+    if (page < 0 || row < 0 || column < 0 || length < 0)
+    {
+        throw invalid_argument("Error ,row , page , column , length -> neither can be a negative value !");
+    }
+
+    if (column + length - 1 >= _COLUMN_LENGTH)
+    {
+        throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
+    }
+
+    addLines(page, row, dir, length);
+
+    for (int i = 0; i < length; i++)
+    {
+        if (dir == Direction::Horizontal)
+        {
+            this->_pages[page][row][column + i] = '~';
+        }
+        else
+        {
+            this->_pages[page][row + i][column] = '~';
+        }
+    }
+}
+
+int countDigits(int x)
+{
+    const int div = 10;
+    if (x == 0)
+    {
+        return 1;
+    }
+    int cnt = 0;
+    while (x != 0)
+    {
+        cnt++;
+        x /= div;
+    }
+    return cnt;
+}
+
+int Notebook::findFirstWirttenLine(int page)
+{
+    for (int i = 0; _pages[page].count(i) != 0; i++)
+    {
+        for (int k = 0; k < _COLUMN_LENGTH; k++)
+        {
+            if (_pages[page][i][k] != '_')
+            {
+                if (i > 0)
+                {
+                    return i - 1;
+                }
+                return i;
+            }
+        }
+    }
+    return -1;
 }
 
 void Notebook::show(int page)
 {
-    for (int i = 0; i < this->_pages.size(); i++)
+    if (page < 0)
     {
-        for (int k = 0; k < this->_pages.at(i).size(); k++)
+        throw invalid_argument("Error ,page cant be a negative value !");
+    }
+    cout << endl
+         << "Page number " << page << endl
+         << endl;
+
+    int starterLine = findFirstWirttenLine(page);
+
+    for (int i = starterLine; (_pages[page].count(i) != 0); i++)
+    {
+        cout << i << "-";
+
+        for (int k = 0; k < countDigits(_pages[page].size()) + 1 - countDigits(i); k++)
         {
-            cout << _pages.at(i).at(k)->getWord() << " ";
+            cout << " ";
         }
 
+        for (int k = 0; k < _COLUMN_LENGTH; k++)
+        {
+            cout << _pages[page][i][k] << "";
+        }
         cout << endl;
     }
+
+    cout << endl;
 }
 
-// void Notebook::setTitle(string title)
-// {
-//     this->_title = title;
-// }
+/**
+ * @brief  This is the Show format
+ *
+ */
+
+/**
+    Page number 100
+
+
+    83-  ____________________________________________________________________________________________________
+    84-  ____________________________________________________________________________________________________
+    85-  ____________________________________________________________________________________________________
+    86-  ____________________________________________________________________________________________________
+    87-  ____________________________________________________________________________________________________
+    88-  ____________________________________________________________________________________________________
+    89-  ____________________________________________________________________________________________________
+    90-  ____________________________________________________________________________________________________
+    91-  ____________________________________________________________________________________________________
+    92-  ____________________________________________________________________________________________________
+    93-  ____________________________________________________________________________________________________
+    94-  ____________________________________________________________________________________________________
+    95-  ____________________________________________________________________________________________________
+    96-  ____________________________________________________________________________________________________
+    97-  ____________________________________________________________________________________________________
+    98-  ____________________________________________________________________________________________________
+    99-  ___________________________________________________~________________________________________________
+    100- __________________________________________________a~cd______________________________________________
+    101- ___________________________________________________~________________________________________________
+    102- ____________________________________________________________________________________________________
+
+**/
