@@ -17,13 +17,14 @@ namespace ariel
     private:
         void addLines(int page, int rows, Direction dir, int length = 1);
         int findFirstWirttenLine(int page);
+        
 
     public:
         void write(int page, int row, int column, Direction dir, const string &data);
         string read(int page, int row, int column, Direction dir, int length);
         void erase(int page, int row, int column, Direction dir, int length);
         void show(int page);
-        // void Notebook::setTitle(string title);
+        void clear();
     };
 
 }

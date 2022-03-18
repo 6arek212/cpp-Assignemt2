@@ -72,7 +72,6 @@ string Notebook::read(int page, int row, int column, Direction dir, int length)
         throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
     }
 
-
     addLines(page, row, dir, length);
 
     string str;
@@ -214,3 +213,14 @@ void Notebook::show(int page)
     102- ____________________________________________________________________________________________________
 
 **/
+
+void Notebook::clear()
+{
+    for (auto &pg : _pages)
+    {
+        for (auto &ln : pg.second)
+        {
+            delete [] ln.second;
+        }
+    }
+}
