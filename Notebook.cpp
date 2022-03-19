@@ -157,9 +157,15 @@ void Notebook::show(int page)
     {
         throw invalid_argument("Error ,page cant be a negative value !");
     }
+
     cout << endl
-         << "Page number " << page << endl
-         << endl;
+         << "-----"
+         << "Notebook title: " << this->_title << "-----" << endl;
+
+    cout
+        << endl
+        << "Page number " << page << endl
+        << endl;
 
     int starterLine = findFirstWirttenLine(page);
 
@@ -214,13 +220,18 @@ void Notebook::show(int page)
 
 **/
 
-void Notebook::clear()
+Notebook::Notebook(string title)
+{
+    this->_title = title;
+}
+
+Notebook::~Notebook()
 {
     for (auto &pg : _pages)
     {
         for (auto &ln : pg.second)
         {
-            delete [] ln.second;
+            delete[] ln.second;
         }
     }
 }
