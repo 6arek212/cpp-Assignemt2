@@ -25,7 +25,7 @@ bool isValidString(string str)
 {
     for (size_t i = 0; i < str.size(); i++)
     {
-        if (str[i] == '_' || str[i] == '~')
+        if (str[i] == '~')
         {
             return false;
         }
