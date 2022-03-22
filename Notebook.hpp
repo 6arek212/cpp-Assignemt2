@@ -12,17 +12,17 @@ namespace ariel
 
     private:
         string _title;
-        map<int, map<int, char *>> _pages;
+        map<unsigned int, map<unsigned int, char *>> _pages;
 
     private:
-        void addLines(int page, int rows, Direction dir, int length = 1);
-        int findFirstWirttenLine(int page);
+        void addLines(unsigned int page, unsigned int rows, Direction dir, unsigned int length = 1);
+        unsigned int findFirstWirttenLine(unsigned int page);
 
     public:
-        void write(int page, int row, int column, Direction dir, const string &data);
-        string read(int page, int row, int column, Direction dir, int length);
-        void erase(int page, int row, int column, Direction dir, int length);
-        void show(int page);
+        void write(unsigned int page, unsigned int row, unsigned int column, Direction dir, const string &data);
+        string read(unsigned int page, unsigned int row, unsigned int column, Direction dir, unsigned int length);
+        void erase(unsigned int page, unsigned int row, unsigned int column, Direction dir, unsigned int length);
+        void show(unsigned int page);
         ~Notebook();
         Notebook(string title = "Note 1");
     };

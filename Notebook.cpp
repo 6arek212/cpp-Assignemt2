@@ -5,15 +5,15 @@
 using namespace ariel;
 using namespace std;
 
-void Notebook::addLines(int page, int rows, Direction dir, int length)
+void Notebook::addLines(unsigned int page, unsigned int rows, Direction dir, unsigned int length)
 {
-    int lg = dir == Direction::Horizontal ? rows : rows + length;
-    for (int i = 0; i <= lg; i++)
+    unsigned int lg = dir == Direction::Horizontal ? rows : rows + length;
+    for (unsigned int i = 0; i <= lg; i++)
     {
         if (this->_pages[page].count(i) == 0)
         {
             this->_pages[page][i] = new char[_COLUMN_LENGTH];
-            for (int k = 0; k < _COLUMN_LENGTH; k++)
+            for (unsigned int k = 0; k < _COLUMN_LENGTH; k++)
             {
                 this->_pages[page][i][k] = '_';
             }
@@ -21,21 +21,21 @@ void Notebook::addLines(int page, int rows, Direction dir, int length)
     }
 }
 
-void Notebook::write(int page, int row, int column, Direction dir, const string &data)
+void Notebook::write(unsigned int page, unsigned int row, unsigned int column, Direction dir, const string &data)
 {
-    if (page < 0 || row < 0 || column < 0)
+    if ((int)page < 0 || (int)row < 0 || (int)column < 0)
     {
         throw invalid_argument("Error ,row , page , column  -> neither can be a negative value !");
     }
 
-    if (column + (int)data.length() - 1 >= _COLUMN_LENGTH)
+    if (column + (unsigned int)data.length() - 1 >= _COLUMN_LENGTH)
     {
         throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
     }
 
     addLines(page, row, dir, data.length());
 
-    int i = 0;
+    unsigned int i = 0;
     for (char const &ch : data)
     {
         if ((dir == Direction::Horizontal && this->_pages[page][row][column + i] != '_') || (dir == Direction::Vertical && this->_pages[page][row + i][column] != '_'))
@@ -60,9 +60,9 @@ void Notebook::write(int page, int row, int column, Direction dir, const string 
     }
 }
 
-string Notebook::read(int page, int row, int column, Direction dir, int length)
+string Notebook::read(unsigned int page, unsigned int row, unsigned int column, Direction dir, unsigned int length)
 {
-    if (page < 0 || row < 0 || column < 0 || length < 0)
+    if ((int)page < 0 || (int)row < 0 || (int)column < 0 || (int)length < 0)
     {
         throw invalid_argument("Error ,row , page , column , length -> neither can be a negative value !");
     }
@@ -75,7 +75,7 @@ string Notebook::read(int page, int row, int column, Direction dir, int length)
     addLines(page, row, dir, length);
 
     string str;
-    for (int i = 0; i < length; i++)
+    for (unsigned int i = 0; i < length; i++)
     {
         if (dir == Direction::Horizontal)
         {
@@ -89,9 +89,9 @@ string Notebook::read(int page, int row, int column, Direction dir, int length)
     return str;
 }
 
-void Notebook::erase(int page, int row, int column, Direction dir, int length)
+void Notebook::erase(unsigned int page, unsigned int row, unsigned int column, Direction dir, unsigned int length)
 {
-    if (page < 0 || row < 0 || column < 0 || length < 0)
+    if ((int)page < 0 || (int)row < 0 || (int)column < 0 || (int)length < 0)
     {
         throw invalid_argument("Error ,row , page , column , length -> neither can be a negative value !");
     }
@@ -103,7 +103,7 @@ void Notebook::erase(int page, int row, int column, Direction dir, int length)
 
     addLines(page, row, dir, length);
 
-    for (int i = 0; i < length; i++)
+    for (unsigned int i = 0; i < length; i++)
     {
         if (dir == Direction::Horizontal)
         {
@@ -116,7 +116,7 @@ void Notebook::erase(int page, int row, int column, Direction dir, int length)
     }
 }
 
-int countDigits(int x)
+int countDigits(unsigned int x)
 {
     const int div = 10;
     if (x == 0)
@@ -132,11 +132,11 @@ int countDigits(int x)
     return cnt;
 }
 
-int Notebook::findFirstWirttenLine(int page)
+unsigned int Notebook::findFirstWirttenLine(unsigned int page)
 {
-    for (int i = 0; _pages[page].count(i) != 0; i++)
+    for (unsigned int i = 0; _pages[page].count(i) != 0; i++)
     {
-        for (int k = 0; k < _COLUMN_LENGTH; k++)
+        for (unsigned int k = 0; k < _COLUMN_LENGTH; k++)
         {
             if (_pages[page][i][k] != '_')
             {
@@ -148,12 +148,12 @@ int Notebook::findFirstWirttenLine(int page)
             }
         }
     }
-    return -1;
+    return 0;
 }
 
-void Notebook::show(int page)
+void Notebook::show(unsigned int page)
 {
-    if (page < 0)
+    if ((int)page < 0)
     {
         throw invalid_argument("Error ,page cant be a negative value !");
     }
@@ -167,18 +167,18 @@ void Notebook::show(int page)
         << "Page number " << page << endl
         << endl;
 
-    int starterLine = findFirstWirttenLine(page);
+    unsigned int starterLine = findFirstWirttenLine(page);
 
-    for (int i = starterLine; (_pages[page].count(i) != 0); i++)
+    for (unsigned int i = starterLine; (_pages[page].count(i) != 0); i++)
     {
         cout << i << "-";
 
-        for (int k = 0; k < countDigits(_pages[page].size()) + 1 - countDigits(i); k++)
+        for (unsigned int k = 0; k < countDigits(_pages[page].size()) + 1 - countDigits(i); k++)
         {
             cout << " ";
         }
 
-        for (int k = 0; k < _COLUMN_LENGTH; k++)
+        for (unsigned int k = 0; k < _COLUMN_LENGTH; k++)
         {
             cout << _pages[page][i][k] << "";
         }
