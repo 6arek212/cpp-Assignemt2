@@ -17,7 +17,6 @@ namespace ariel
     private:
         void addLines(int page, int rows, Direction dir, int length = 1);
         int findFirstWirttenLine(int page);
-        static bool isValidString(string str);
 
     public:
         void write(int page, int row, int column, Direction dir, const string &data);

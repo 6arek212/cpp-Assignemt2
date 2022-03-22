@@ -21,7 +21,7 @@ void Notebook::addLines(int page, int rows, Direction dir, int length)
     }
 }
 
-bool Notebook::isValidString(string str)
+bool isValidString(string str)
 {
     for (size_t i = 0; i < str.size(); i++)
     {
