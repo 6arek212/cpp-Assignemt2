@@ -7,7 +7,7 @@ using namespace std;
 
 void Notebook::addLines(int page, int rows, Direction dir, int length)
 {
-    int lg = dir == Direction::Horizontal ? rows : rows + length;
+    int lg = (dir == Direction::Horizontal) ? rows : rows + length;
     for (int i = 0; i <= lg; i++)
     {
         if (this->_pages[page].count(i) == 0)
@@ -21,11 +21,28 @@ void Notebook::addLines(int page, int rows, Direction dir, int length)
     }
 }
 
+bool Notebook::isValidString(string str)
+{
+    for (size_t i = 0; i < str.size(); i++)
+    {
+        if (str[i] == '_' || str[i] == '~')
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 void Notebook::write(int page, int row, int column, Direction dir, const string &data)
 {
     if ((int)page < 0 || (int)row < 0 || (int)column < 0)
     {
         throw invalid_argument("Error ,row , page , column  -> neither can be a negative value !");
+    }
+
+    if (!isValidString(data))
+    {
+        throw invalid_argument("the input string cant have '~' or '_'");
     }
 
     if (dir != Direction::Vertical && (column + (int)data.length() - 1 >= _COLUMN_LENGTH))
@@ -100,6 +117,13 @@ void Notebook::erase(int page, int row, int column, Direction dir, int length)
     }
 
     addLines(page, row, dir, length);
+    // for (int i = 0; i < length; i++)
+    // {
+    //     if ((dir == Direction::Horizontal && this->_pages[page][row][column + i] == '~') || (dir == Direction::Vertical && this->_pages[page][row + i][column] == '~'))
+    //     {
+    //         throw invalid_argument("Error , Already removed this char");
+    //     }
+    // }
 
     for (int i = 0; i < length; i++)
     {

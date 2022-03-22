@@ -162,14 +162,14 @@ TEST_CASE("Erase all 100 line in page Verticaly")
 
     for (int k = 0; k < 100; k++)
     {
-        notebook.erase(/*page=*/1, /*row=*/k, /*column=*/0, Direction::Vertical, COLUMN_LENGTH);
+        notebook.erase(/*page=*/1, /*row=*/0, /*column=*/k, Direction::Vertical, COLUMN_LENGTH);
     }
 
     for (int k = 0; k < 100; k++)
     {
         for (int i = 0; i < COLUMN_LENGTH; i++)
         {
-            CHECK(notebook.read(1, k, 0, Direction::Vertical, 1) == "~");
+            CHECK(notebook.read(1, 0, k, Direction::Vertical, 1) == "~");
         }
     }
 }
@@ -321,6 +321,10 @@ TEST_CASE("Bad input")
 {
 
     Notebook notebook;
+
+    CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, "abc~d"));
+    CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, "abc~d____"));
+    CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, "________________"));
 
     CHECK_THROWS(notebook.write(/*page=*/-100, /*row=*/100, /*column=*/50, Direction::Horizontal, "abcd"));
     CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/-100, /*column=*/50, Direction::Horizontal, "abcd"));
