@@ -74,6 +74,12 @@ TEST_CASE("Good input")
 {
     Notebook notebook;
 
+    CHECK(notebook.read(0, 0, 0, Direction::Horizontal, 10) == "__________");
+    CHECK(notebook.read(0, 0, 0, Direction::Vertical, 10) == "__________");
+
+    notebook.write(/*page=*/1, /*row=*/0, /*column=*/5, Direction::Horizontal, "tarik");
+    CHECK(notebook.read(1, 0, 0, Direction::Horizontal, 15) == "_____tarik_____");
+
     notebook.write(/*page=*/100, /*row=*/100, /*column=*/50, Direction::Horizontal, "abcd");
     CHECK(notebook.read(100, 100, 50, Direction::Horizontal, 4) == "abcd");
 
@@ -412,6 +418,7 @@ TEST_CASE("Write a word with 1000 chars Verticaly/Horizontaly")
 
     CHECK_NOTHROW(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Vertical, input));
     CHECK(notebook.read(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Vertical, 1000) == input);
+    CHECK_NOTHROW(notebook.erase(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Vertical, 1000));
 
     CHECK_THROWS(notebook.write(/*page=*/1, /*row=*/0, /*column=*/0, Direction::Horizontal, input));
     CHECK_THROWS(notebook.read(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, 1000));
