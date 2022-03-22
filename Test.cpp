@@ -324,7 +324,6 @@ TEST_CASE("Bad input")
 
     CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, "abc~d"));
     CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, "abc~d____"));
-    CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, "________________"));
 
     CHECK_THROWS(notebook.write(/*page=*/-100, /*row=*/100, /*column=*/50, Direction::Horizontal, "abcd"));
     CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/-100, /*column=*/50, Direction::Horizontal, "abcd"));
