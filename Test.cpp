@@ -8,7 +8,7 @@ using namespace ariel;
 
 const int COLUMN_LENGTH = 100;
 
-void fillSquarePage(Notebook &notebook,unsigned int page)
+void fillSquarePage(Notebook &notebook, int page)
 {
     /**
      * @brief  filling a page like so :
@@ -30,7 +30,7 @@ void fillSquarePage(Notebook &notebook,unsigned int page)
      *
      */
     int dir = 1;
-    for (unsigned int k = 0; k < COLUMN_LENGTH; k++)
+    for (int k = 0; k < COLUMN_LENGTH; k++)
     {
         if (dir == 1)
         {
@@ -94,17 +94,17 @@ TEST_CASE("Filling Page Horizontaly")
 {
     Notebook notebook;
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
-        for (unsigned int i = 0; i < COLUMN_LENGTH; i++)
+        for (int i = 0; i < COLUMN_LENGTH; i++)
         {
             notebook.write(/*page=*/1, /*row=*/k, /*column=*/i, Direction::Horizontal, "1");
         }
     }
 
-    for (unsigned  k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
-        for (unsigned int i = 0; i < COLUMN_LENGTH; i++)
+        for (int i = 0; i < COLUMN_LENGTH; i++)
         {
             CHECK(notebook.read(1, k, 0, Direction::Horizontal, 1) == "1");
         }
@@ -115,14 +115,14 @@ TEST_CASE("Erase all 100 line in page Horizontaly")
 {
     Notebook notebook;
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
         notebook.erase(/*page=*/1, /*row=*/k, /*column=*/0, Direction::Horizontal, COLUMN_LENGTH);
     }
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
-        for (unsigned int i = 0; i < COLUMN_LENGTH; i++)
+        for (int i = 0; i < COLUMN_LENGTH; i++)
         {
             CHECK(notebook.read(1, k, 0, Direction::Horizontal, 1) == "~");
         }
@@ -133,17 +133,17 @@ TEST_CASE("Filling Page Verticaly")
 {
     Notebook notebook;
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
-        for (unsigned int i = 0; i < COLUMN_LENGTH; i++)
+        for (int i = 0; i < COLUMN_LENGTH; i++)
         {
             notebook.write(/*page=*/1, /*row=*/k, /*column=*/i, Direction::Vertical, "1");
         }
     }
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
-        for (unsigned int i = 0; i < COLUMN_LENGTH; i++)
+        for (int i = 0; i < COLUMN_LENGTH; i++)
         {
             CHECK(notebook.read(1, k, 0, Direction::Vertical, 1) == "1");
         }
@@ -154,14 +154,14 @@ TEST_CASE("Erase all 100 line in page Verticaly")
 {
     Notebook notebook;
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
         notebook.erase(/*page=*/1, /*row=*/k, /*column=*/0, Direction::Vertical, COLUMN_LENGTH);
     }
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
-        for (unsigned int i = 0; i < COLUMN_LENGTH; i++)
+        for (int i = 0; i < COLUMN_LENGTH; i++)
         {
             CHECK(notebook.read(1, k, 0, Direction::Vertical, 1) == "~");
         }
@@ -172,12 +172,12 @@ TEST_CASE("Writing on different pages")
 {
     Notebook notebook;
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
         notebook.write(/*page=*/k, /*row=*/0, /*column=*/0, Direction::Horizontal, "tarik");
     }
 
-    for (unsigned int k = 0; k < 100; k++)
+    for (int k = 0; k < 100; k++)
     {
         CHECK(notebook.read(k, 0, 0, Direction::Horizontal, 5) == "tarik");
         CHECK(notebook.read(k, 0, 0, Direction::Horizontal, 4) == "tari");
@@ -213,10 +213,10 @@ TEST_CASE("Fill square page")
     fillSquarePage(notebook, 0);
 
     int dir = 0;
-    for (unsigned int k = 0; k < COLUMN_LENGTH; k++)
+    for (int k = 0; k < COLUMN_LENGTH; k++)
     {
 
-        for (unsigned int i = 0; i < COLUMN_LENGTH; i++)
+        for (int i = 0; i < COLUMN_LENGTH; i++)
         {
             if (k == 0 || k == COLUMN_LENGTH - 1)
             {
@@ -243,12 +243,12 @@ TEST_CASE("ONE PAGE WITH 1000 ROWS")
 {
     Notebook notebook;
 
-    for (unsigned int k = 0; k < 1000; k++)
+    for (int k = 0; k < 1000; k++)
     {
         notebook.write(/*page=*/0, /*row=*/k, k % (COLUMN_LENGTH - 10), Direction::Horizontal, "1111111111");
     }
 
-    for (unsigned int k = 0; k < 1000; k++)
+    for (int k = 0; k < 1000; k++)
     {
         CHECK(notebook.read(0, k, k % (COLUMN_LENGTH - 10), Direction::Horizontal, 10) == "1111111111");
     }
@@ -258,17 +258,17 @@ TEST_CASE("1000 PAGE WITH 10 ROWS EACH")
 {
     Notebook notebook;
 
-    for (unsigned int i = 0; i < 1000; i++)
+    for (int i = 0; i < 1000; i++)
     {
-        for (unsigned int k = 0; k < 10; k++)
+        for (int k = 0; k < 10; k++)
         {
             notebook.write(/*page=*/i, /*row=*/k, /*column=*/k % (COLUMN_LENGTH - 10), Direction::Horizontal, "1111111111");
         }
     }
 
-    for (unsigned int i = 0; i < 1000; i++)
+    for (int i = 0; i < 1000; i++)
     {
-        for (unsigned int k = 0; k < 10; k++)
+        for (int k = 0; k < 10; k++)
         {
             CHECK(notebook.read(0, k, k % (COLUMN_LENGTH - 10), Direction::Horizontal, 10) == "1111111111");
         }
@@ -300,12 +300,12 @@ TEST_CASE("Alphabet Page")
     Notebook notebook;
 
     string str = "abcdefghijklmnopqrstuwvxyz";
-    for (unsigned int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
     {
         notebook.write(/*page=*/0, /*row=*/i, /*column=*/COLUMN_LENGTH / 2, Direction::Horizontal, str);
     }
 
-    for (unsigned int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
     {
         CHECK(notebook.read(0, i, COLUMN_LENGTH / 2, Direction::Horizontal, 26) == str);
     }
@@ -316,25 +316,25 @@ TEST_CASE("Bad input")
 
     Notebook notebook;
 
-    // CHECK_THROWS(notebook.write(/*page=*/-100, /*row=*/100, /*column=*/50, Direction::Horizontal, "abcd"));
-    // CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/-100, /*column=*/50, Direction::Horizontal, "abcd"));
-    // CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/100, /*column=*/-50, Direction::Horizontal, "abcd"));
-    // CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/100, /*column=*/-50, Direction::Horizontal, "abcd"));
-    // CHECK_THROWS(notebook.write(/*page=*/-100, /*row=*/-100, /*column=*/-50, Direction::Horizontal, "abcd"));
+    CHECK_THROWS(notebook.write(/*page=*/-100, /*row=*/100, /*column=*/50, Direction::Horizontal, "abcd"));
+    CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/-100, /*column=*/50, Direction::Horizontal, "abcd"));
+    CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/100, /*column=*/-50, Direction::Horizontal, "abcd"));
+    CHECK_THROWS(notebook.write(/*page=*/100, /*row=*/100, /*column=*/-50, Direction::Horizontal, "abcd"));
+    CHECK_THROWS(notebook.write(/*page=*/-100, /*row=*/-100, /*column=*/-50, Direction::Horizontal, "abcd"));
 
-    // CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/100, Direction::Horizontal, "a"));
-    // CHECK_NOTHROW(notebook.write(/*page=*/0, /*row=*/0, /*column=*/99, Direction::Horizontal, "a"));
+    CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/0, /*column=*/100, Direction::Horizontal, "a"));
+    CHECK_NOTHROW(notebook.write(/*page=*/0, /*row=*/0, /*column=*/99, Direction::Horizontal, "a"));
 
-    // CHECK_THROWS(notebook.erase(/*page=*/-100, /*row=*/99, /*column=*/51, Direction::Vertical, /*length=*/3));
-    // CHECK_THROWS(notebook.erase(/*page=*/100, /*row=*/-99, /*column=*/51, Direction::Vertical, /*length=*/3));
-    // CHECK_THROWS(notebook.erase(/*page=*/100, /*row=*/99, /*column=*/-51, Direction::Vertical, /*length=*/3));
-    // CHECK_THROWS(notebook.erase(/*page=*/100, /*row=*/99, /*column=*/51, Direction::Vertical, /*length=*/-3));
-    // CHECK_THROWS(notebook.erase(/*page=*/-100, /*row=*/-99, /*column=*/-51, Direction::Vertical, /*length=*/-3));
+    CHECK_THROWS(notebook.erase(/*page=*/-100, /*row=*/99, /*column=*/51, Direction::Vertical, /*length=*/3));
+    CHECK_THROWS(notebook.erase(/*page=*/100, /*row=*/-99, /*column=*/51, Direction::Vertical, /*length=*/3));
+    CHECK_THROWS(notebook.erase(/*page=*/100, /*row=*/99, /*column=*/-51, Direction::Vertical, /*length=*/3));
+    CHECK_THROWS(notebook.erase(/*page=*/100, /*row=*/99, /*column=*/51, Direction::Vertical, /*length=*/-3));
+    CHECK_THROWS(notebook.erase(/*page=*/-100, /*row=*/-99, /*column=*/-51, Direction::Vertical, /*length=*/-3));
 
-    // CHECK_THROWS(notebook.read(-1, 1, 1, Direction::Horizontal, 1));
-    // CHECK_THROWS(notebook.read(1, -1, 1, Direction::Horizontal, 1));
-    // CHECK_THROWS(notebook.read(1, 1, -1, Direction::Horizontal, 1));
-    // CHECK_THROWS(notebook.read(-1, -1, -1, Direction::Horizontal, 1));
+    CHECK_THROWS(notebook.read(-1, 1, 1, Direction::Horizontal, 1));
+    CHECK_THROWS(notebook.read(1, -1, 1, Direction::Horizontal, 1));
+    CHECK_THROWS(notebook.read(1, 1, -1, Direction::Horizontal, 1));
+    CHECK_THROWS(notebook.read(-1, -1, -1, Direction::Horizontal, 1));
 }
 
 TEST_CASE("Letter intersecting")
@@ -391,9 +391,9 @@ TEST_CASE("fill square page and check for out of border intersection")
     CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/COLUMN_LENGTH - 1, /*column=*/COLUMN_LENGTH - 1, Direction::Horizontal, "-"));
     CHECK_THROWS(notebook.write(/*page=*/0, /*row=*/COLUMN_LENGTH - 1, /*column=*/COLUMN_LENGTH / 2, Direction::Horizontal, "-"));
 
-    for (unsigned int i = 1; i < COLUMN_LENGTH - 1; i++)
+    for (int i = 1; i < COLUMN_LENGTH - 1; i++)
     {
-        for (unsigned int k = 1; k < COLUMN_LENGTH - 1; k++)
+        for (int k = 1; k < COLUMN_LENGTH - 1; k++)
         {
             CHECK_NOTHROW(notebook.write(/*page=*/0, /*row=*/i, /*column=*/k, Direction::Vertical, "H"));
         }
