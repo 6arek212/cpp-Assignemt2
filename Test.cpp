@@ -399,3 +399,20 @@ TEST_CASE("fill square page and check for out of border intersection")
         }
     }
 }
+
+TEST_CASE("Write a word with 1000 chars Verticaly/Horizontaly")
+{
+    Notebook notebook;
+    string input;
+
+    for (int i = 0; i < 1000; i++)
+    {
+        input += "a";
+    }
+
+    CHECK_NOTHROW(notebook.write(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Vertical, input));
+    CHECK(notebook.read(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Vertical, 1000) == input);
+
+    CHECK_THROWS(notebook.write(/*page=*/1, /*row=*/0, /*column=*/0, Direction::Horizontal, input));
+    CHECK_THROWS(notebook.read(/*page=*/0, /*row=*/0, /*column=*/0, Direction::Horizontal, 1000));
+}

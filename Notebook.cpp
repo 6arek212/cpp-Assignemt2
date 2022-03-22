@@ -28,24 +28,22 @@ void Notebook::write(int page, int row, int column, Direction dir, const string 
         throw invalid_argument("Error ,row , page , column  -> neither can be a negative value !");
     }
 
-    if (column + (int)data.length() - 1 >= _COLUMN_LENGTH)
+    if (dir != Direction::Vertical && (column + (int)data.length() - 1 >= _COLUMN_LENGTH))
     {
         throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
     }
 
     addLines(page, row, dir, data.length());
 
-    int i = 0;
-    for (char const &ch : data)
+    for (int i = 0; i < data.size(); i++)
     {
         if ((dir == Direction::Horizontal && this->_pages[page][row][column + i] != '_') || (dir == Direction::Vertical && this->_pages[page][row + i][column] != '_'))
         {
             throw invalid_argument("Error , writing one of the letter intersect with another");
         }
-        i++;
     }
 
-    i = 0;
+    int i = 0;
     for (char const &ch : data)
     {
         if (dir == Direction::Horizontal)
@@ -67,7 +65,7 @@ string Notebook::read(int page, int row, int column, Direction dir, int length)
         throw invalid_argument("Error ,row , page , column , length -> neither can be a negative value !");
     }
 
-    if (column + length - 1 >= _COLUMN_LENGTH)
+    if (dir != Direction::Vertical && (column + length - 1 >= _COLUMN_LENGTH))
     {
         throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
     }
@@ -96,7 +94,7 @@ void Notebook::erase(int page, int row, int column, Direction dir, int length)
         throw invalid_argument("Error ,row , page , column , length -> neither can be a negative value !");
     }
 
-    if (column + length - 1 >= _COLUMN_LENGTH)
+    if (dir != Direction::Vertical && (column + length - 1 >= _COLUMN_LENGTH))
     {
         throw invalid_argument("Error ,column + data length must be less than COLUMN LENGTH");
     }
