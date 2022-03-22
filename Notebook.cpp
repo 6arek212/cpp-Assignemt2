@@ -242,11 +242,6 @@ void Notebook::show(int page)
 
 **/
 
-Notebook::Notebook(string title)
-{
-    this->_title = title;
-}
-
 Notebook::~Notebook()
 {
     for (auto &pg : _pages)

@@ -17,7 +17,7 @@ namespace ariel
     private:
         void addLines(int page, int rows, Direction dir, int length = 1);
         int findFirstWirttenLine(int page);
-        bool isValidString(string str);
+        static bool isValidString(string str);
 
     public:
         void write(int page, int row, int column, Direction dir, const string &data);
@@ -25,7 +25,6 @@ namespace ariel
         void erase(int page, int row, int column, Direction dir, int length);
         void show(int page);
         ~Notebook();
-        Notebook(string title = "Note 1");
     };
 
 }
