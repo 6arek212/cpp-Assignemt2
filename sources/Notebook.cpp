@@ -7,9 +7,15 @@ using namespace std;
 
 void validateInput(int page, int row, int column, Direction dir, int length = 0, const string &data = "")
 {
+    char a = 32;
     if (page < 0 || row < 0 || column < 0 || length < 0)
     {
         throw invalid_argument("Error ,row , page , column  -> neither can be a negative value !");
+    }
+
+    if (column >= _COLUMN_LENGTH)
+    {
+        throw invalid_argument("Error ,column must be less or than 100 !");
     }
 
     if (length == 0)
@@ -21,6 +27,14 @@ void validateInput(int page, int row, int column, Direction dir, int length = 0,
         if (data.find('~') != string::npos)
         {
             throw invalid_argument("the input string cant have '~'");
+        }
+        for (size_t i = 0; i < data.length(); i++)
+        {
+            const char c = data[i];
+            if (c < 32 || c > 126)
+            {
+                throw "trying to write a not pritable char";
+            }
         }
     }
     else
@@ -52,7 +66,8 @@ void Notebook::write(int page, int row, int column, Direction dir, const string 
     // check intersection
     for (int i = 0; i < data.size(); i++)
     {
-        if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch != '_') || (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch != '_'))
+        if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch != '_') ||
+            (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch != '_'))
         {
             throw invalid_argument("Error , writing one of the letter intersect with another");
         }
@@ -97,6 +112,15 @@ void Notebook::erase(int page, int row, int column, Direction dir, int length)
 {
     validateInput(page, row, column, dir, length);
     updatePageIndexs(page, row, dir, length);
+
+    for (int i = 0; i < length; i++)
+    {
+        if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch == '~') || 
+        (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch == '~'))
+        {
+            throw "cant erase an erased value";
+        }
+    }
 
     for (int i = 0; i < length; i++)
     {
