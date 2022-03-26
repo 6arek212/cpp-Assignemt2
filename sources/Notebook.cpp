@@ -63,7 +63,7 @@ void Notebook::write(int page, int row, int column, Direction dir, const string 
 {
     validateInput(page, row, column, dir, 0, data);
     // check intersection
-    for (int i = 0; i < data.size(); i++)
+    for (int i = 0; i < data.length(); i++)
     {
         if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch != '_') ||
             (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch != '_'))
