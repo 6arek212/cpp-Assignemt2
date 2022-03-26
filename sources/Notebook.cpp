@@ -7,7 +7,6 @@ using namespace std;
 
 void validateInput(int page, int row, int column, Direction dir, int length = 0, const string &data = "")
 {
-    char a = 32;
     if (page < 0 || row < 0 || column < 0 || length < 0)
     {
         throw invalid_argument("Error ,row , page , column  -> neither can be a negative value !");
@@ -31,7 +30,7 @@ void validateInput(int page, int row, int column, Direction dir, int length = 0,
         for (size_t i = 0; i < data.length(); i++)
         {
             const char c = data[i];
-            if (c < 32 || c > 126)
+            if (c < _MIN_CHAR || c > _MAX_CHAR)
             {
                 throw "trying to write a not pritable char";
             }
@@ -112,15 +111,16 @@ void Notebook::erase(int page, int row, int column, Direction dir, int length)
 {
     validateInput(page, row, column, dir, length);
     updatePageIndexs(page, row, dir, length);
-
-    // for (int i = 0; i < length; i++)
-    // {
-    //     if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch == '~') || 
-    //     (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch == '~'))
-    //     {
-    //         throw "cant erase an erased value";
-    //     }
-    // }
+   
+    for (int i = 0; i < length; i++)
+    {
+        // cout << this->_pages[page].page[row][column + i].ch << " ";
+        if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch == '~') ||
+            (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch == '~'))
+        {
+            throw "cant erase an erased value";
+        }
+    }
 
     for (int i = 0; i < length; i++)
     {

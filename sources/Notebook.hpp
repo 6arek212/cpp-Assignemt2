@@ -6,7 +6,9 @@ using namespace std;
 namespace ariel
 {
     const int _COLUMN_LENGTH = 100;
-
+    const int _MIN_CHAR = 32;
+    const int _MAX_CHAR = 126;
+    
     struct placeholder
     {
         char ch = '_';
@@ -25,9 +27,11 @@ namespace ariel
     private:
         string _title;
         map<int, page> _pages;
+        const int _COLUMN_LENGTH = 100;
 
     private:
-        void updatePageIndexs(int page, int row, Direction dir, int length = 0);
+        void
+        updatePageIndexs(int page, int row, Direction dir, int length = 0);
         void printPage(int page, bool flag, int start_row = 0, int end_row = 100);
 
     public:
