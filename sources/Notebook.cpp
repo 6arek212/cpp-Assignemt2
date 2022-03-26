@@ -113,14 +113,14 @@ void Notebook::erase(int page, int row, int column, Direction dir, int length)
     validateInput(page, row, column, dir, length);
     updatePageIndexs(page, row, dir, length);
 
-    for (int i = 0; i < length; i++)
-    {
-        if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch == '~') || 
-        (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch == '~'))
-        {
-            throw "cant erase an erased value";
-        }
-    }
+    // for (int i = 0; i < length; i++)
+    // {
+    //     if ((dir == Direction::Horizontal && this->_pages[page].page[row][column + i].ch == '~') || 
+    //     (dir == Direction::Vertical && this->_pages[page].page[row + i][column].ch == '~'))
+    //     {
+    //         throw "cant erase an erased value";
+    //     }
+    // }
 
     for (int i = 0; i < length; i++)
     {
